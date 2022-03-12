@@ -43,7 +43,7 @@ if numberOfEntries > 1:
     soup = BeautifulSoup(page.content, "html.parser")
     result = soup.find("div", {"class" : "col-xs-12"})
     weatherWarning = result.find("p")
-    print(weatherWarning)
+    print(result)
 #    print(result.prettify())
    # print(page.text)
 
