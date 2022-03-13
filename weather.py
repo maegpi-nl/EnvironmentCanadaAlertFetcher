@@ -1,4 +1,8 @@
-#
+# https://github.com/maegpi-nl/EnvironmentCanadaAlertFetcher
+# @author Maegpi
+# @Date Modified 2022-03-22
+# @Description: A small program that scrapes the Environment Canada's Weather Warning page and
+# returns the current warning as a string object
 
 
 import feedparser
