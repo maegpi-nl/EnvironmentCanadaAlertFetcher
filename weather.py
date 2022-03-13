@@ -1,5 +1,6 @@
 #
 
+
 import feedparser
 import requests
 from bs4 import BeautifulSoup
@@ -7,48 +8,48 @@ import re
 
 TEST_FLAG = True #Manual flag for local testing of file
 
-class scrapeAlerts:
+class scrape_alerts:
     def __init__(self):
-        self.w = weatherRSS()
+        self.w = weather_rss()
 
-    def _isAlert(self):
-        return True if (self.w.getNumberEntries() > 1) else False
+    def _is_alert(self):
+        return self.w.get_number_entries() > 1
 
-    def getAlert(self):
-        if self._isAlert():
-            url = self.w.getLink(1)
+    def get_alert(self):
+        if self._is_alert():
+            url = self.w.get_link(1)
             page = requests.get(url)
             soup = BeautifulSoup(page.content, "html.parser")
             result = soup.find("div", {"class": "col-xs-12"})
             alert = re.sub('<[^>]+>',"",result.text)
-            alertLink = self.w.getLink(1)
-            alertReport = alert.replace(".",". ") + alertLink
-            return alertReport
+            alert_link = self.w.get_link(1)
+            alert_report = alert.replace(".",". ") + alert_link
+            return alert_report
         else:
-            return "No Current Alerts!\n"
+            return None
 
-class weatherRSS:
+class weather_rss:
     def __init__(self):
         self.Feed = feedparser.parse("https://weather.gc.ca/rss/battleboard/nl21_e.xml")
 
-    def getNumberEntries(self):
+    def get_number_entries(self):
         return len(self.Feed.entries)
 
-    def getTitle(self,i):
+    def get_title(self,i):
         return self.Feed.entries[i].title
 
-    def getDate(self,i):
+    def get_date(self,i):
         return self.Feed.entries[i].summary
 
-    def getLink(self,i):
+    def get_link(self,i):
         return self.Feed.entries[i].link        
 
 if __name__ == "__main__":
     if TEST_FLAG:
-        plsWork = scrapeAlerts()
-        print(plsWork.getAlert())
-        with open("testFile.txt",'w') as fp:
-            fp.write(plsWork.getAlert())
+        pls_work = scrape_alerts()
+        print(pls_work.get_alert())
+        with open("test_file.txt",'w') as fp:
+            fp.write(pls_work.get_alert())
             print("Write Successful!\n")
      
 
